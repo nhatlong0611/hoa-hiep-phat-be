@@ -14,6 +14,7 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { AuthModule } from './auth/auth.module';
 import { CartModule } from './cart/cart.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { DatabaseConnectionService } from './helper/database-connection.service';
 
 @Module({
   imports: [
@@ -32,9 +33,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    require('./helper/database-connection.service').DatabaseConnectionService,
-  ],
+  providers: [AppService, DatabaseConnectionService],
 })
 export class AppModule {}
