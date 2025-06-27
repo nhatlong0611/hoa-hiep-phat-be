@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, OnModuleInit, Logger } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -14,6 +14,8 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { AuthModule } from './auth/auth.module';
 import { CartModule } from './cart/cart.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { Connection } from 'mongoose';
+import { ModuleRef } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -34,4 +36,21 @@ import { ScheduleModule } from '@nestjs/schedule';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements OnModuleInit {
+  private readonly logger = new Logger(AppModule.name);
+
+  constructor(private connection: Connection, private moduleRef: ModuleRef) {}
+
+  onModuleInit() {
+    this.connection.on('connected', () => {
+      this.logger.log('Database connected successfully!');
+    });
+    this.connection.on('error', (err) => {
+      this.logger.error('Database connection error:', err);
+    });
+    this.connection.on('disconnected', () => {
+      this.logger.warn('Database disconnected!');
+    });
+  }
+}
+
