@@ -9,6 +9,8 @@ services:
       - DB_CONNECTION_LINK=mongodb://db:27017/hoa-hiep-phat
     depends_on:
       - db
+    networks:
+      - mooncake-net
 
   db:
     image: mongo
@@ -21,3 +23,7 @@ services:
 
 volumes:
   mongodb_data: {}
+
+networks:
+  mooncake-net:
+    external: true
