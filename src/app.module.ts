@@ -16,7 +16,7 @@ import { CartModule } from './cart/cart.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { Connection } from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
-import { ModuleRef } from '@nestjs/core';
+
 
 @Module({
   imports: [
@@ -40,7 +40,7 @@ import { ModuleRef } from '@nestjs/core';
 export class AppModule implements OnModuleInit {
   private readonly logger = new Logger(AppModule.name);
 
-  constructor(@InjectConnection() private connection: Connection, private moduleRef: ModuleRef) {}
+  constructor(@InjectConnection() private connection: Connection) {}
 
   onModuleInit() {
     this.connection.on('connected', () => {
