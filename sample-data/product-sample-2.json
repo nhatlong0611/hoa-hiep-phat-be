@@ -1,0 +1,43 @@
+{
+  "name": "Bánh Trung Thu Trà Xanh",
+  "description": "Bánh trung thu nhân trà xanh Matcha cao cấp, kết hợp với hạt dẻ",
+  "type": ["Bánh Nướng", "Hiện Đại"],
+  "filling": "Trà Xanh",
+  "mainIngredients": [
+    "Bột mì",
+    "Bột trà xanh Matcha",
+    "Hạt dẻ",
+    "Đậu xanh",
+    "Bơ"
+  ],
+  "shape": "Vuông",
+  "crustType": "Hiện đại",
+  "weight": 200,
+  "size": "8cm x 8cm",
+  "percentageOff": 10,
+  "shelfLife": 12,
+  "storage": "Bảo quản trong ngăn mát tủ lạnh",
+  "nutritionInfo": {
+    "calories": 280,
+    "protein": 6,
+    "carbs": 42,
+    "fat": 10
+  },
+  "price": 200000,
+  "image": "https://example.com/banh-trung-thu-2.jpg",
+  "imageUrls": [
+    "https://example.com/banh-trung-thu-2.jpg",
+    "https://example.com/banh-trung-thu-2-2.jpg"
+  ],
+  "stock": 50,
+  "categories": ["Cao cấp", "Hiện đại", "Trà xanh"],
+  "reviews": [
+    {
+      "userId": "user789",
+      "userName": "Lê Thị C",
+      "rating": 5,
+      "comment": "Hương vị trà xanh rất đậm đà",
+      "createdAt": "2023-08-19T10:00:00.000Z"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Bánh Trung Thu Thập Cẩm",
+  "description": "Bánh trung thu thập cẩm truyền thống, kết hợp hài hòa giữa nhân thập cẩm và vỏ bánh mềm mịn",
+  "type": ["Bánh Nướng", "Truyền Thống"],
+  "filling": "Thập Cẩm",
+  "mainIngredients": [
+    "Bột mì",
+    "Mứt bí",
+    "Hạt dưa",
+    "Lạp xưởng",
+    "Trứng muối",
+    "Đậu xanh"
+  ],
+  "shape": "Tròn",
+  "crustType": "Truyền thống",
+  "weight": 250,
+  "size": "10cm x 4cm",
+  "percentageOff": 0,
+  "shelfLife": 15,
+  "storage": "Bảo quản nơi khô ráo, tránh ánh nắng trực tiếp",
+  "nutritionInfo": {
+    "calories": 300,
+    "protein": 8,
+    "carbs": 45,
+    "fat": 12
+  },
+  "price": 180000,
+  "image": "https://example.com/banh-trung-thu-1.jpg",
+  "imageUrls": [
+    "https://example.com/banh-trung-thu-1.jpg",
+    "https://example.com/banh-trung-thu-1-2.jpg",
+    "https://example.com/banh-trung-thu-1-3.jpg"
+  ],
+  "stock": 100,
+  "categories": ["Phổ biến", "Truyền thống", "Bán chạy"],
+  "reviews": [
+
+  ]
+}
