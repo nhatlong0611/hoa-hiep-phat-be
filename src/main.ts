@@ -8,6 +8,10 @@ import * as express from 'express';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Bootstrap');
+  const allowedOrigins = [
+    'https://hoahiepphat.vercel.app',
+    'http://localhost:3000',
+  ];
 
   app.use(express.json()); // Parse JSON bodies
   app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
@@ -16,11 +20,13 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'https://hoahiepphat.vercel.app',
-      process.env.FRONTEND_URL,
-    ].filter(Boolean), // Remove undefined values
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
   });
 
