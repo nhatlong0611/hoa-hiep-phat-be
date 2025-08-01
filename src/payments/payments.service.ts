@@ -15,6 +15,14 @@ import { OrdersService } from '../orders/orders.service';
 
 @Injectable()
 export class PaymentService {
+  constructor(
+    @InjectModel(Payment.name)
+    private paymentModel: Model<PaymentDocument>,
+    private configService: ConfigService,
+    @Inject(forwardRef(() => OrdersService))
+    private ordersService: OrdersService,
+  ) {}
+
   // Xử lý webhook từ Sepay
   async handleSepayWebhook(webhookData: any, authHeader?: string) {
     console.log(
@@ -160,13 +168,6 @@ export class PaymentService {
       };
     }
   }
-  constructor(
-    @InjectModel(Payment.name)
-    private paymentModel: Model<PaymentDocument>,
-    private configService: ConfigService,
-    @Inject(forwardRef(() => OrdersService))
-    private ordersService: OrdersService,
-  ) {}
 
   async createPayment(
     userId: string | null,
