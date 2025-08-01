@@ -5,30 +5,55 @@ export type PaymentDocument = Payment & Document;
 
 @Schema({ timestamps: true })
 export class Payment {
-  @Prop({ type: MongooseSchema.Types.ObjectId, auto: true })
-  _id: MongooseSchema.Types.ObjectId;
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  userId: MongooseSchema.Types.ObjectId;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Order', required: true })
-  order: MongooseSchema.Types.ObjectId;
+  @Prop({ type: Number, required: true })
+  amount: number;
 
-  @Prop({ 
-    type: String, 
+  @Prop({ type: String, default: 'VND' })
+  currency: string;
+
+  @Prop({
+    type: String,
     required: true,
-    enum: ['vnpay', 'momo', 'stripe'] 
+    enum: ['pending', 'completed', 'failed', 'cancelled'],
+    default: 'pending',
   })
-  provider: string;
+  status: string;
 
-  @Prop({ type: Object, required: true })
-  payload: Record<string, any>;
+  @Prop({ type: String, default: 'sepay' })
+  paymentMethod: string;
 
-  @Prop({ type: Boolean, default: false })
-  verified: boolean;
+  @Prop({ type: String })
+  description: string;
 
-  @Prop({ type: Date, required: true, default: Date.now })
-  receivedAt: Date;
+  @Prop({ type: String, unique: true })
+  orderCode: string;
 
-  @Prop()
-  createdAt: Date;
+  @Prop({ type: Date })
+  paidAt: Date;
+
+  @Prop({ type: String })
+  sepayId: string;
+
+  @Prop({ type: String })
+  sepayTransactionId: string;
+
+  @Prop({ type: String })
+  sepayReferenceCode: string;
+
+  @Prop({ type: String })
+  sepayGateway: string;
+
+  @Prop({ type: Object })
+  sepayWebhook: Record<string, any>;
+
+  @Prop({ type: Object })
+  orderData: any;
+
+  @Prop({ type: Object })
+  customerInfo: any;
 }
 
 export const PaymentSchema = SchemaFactory.createForClass(Payment);

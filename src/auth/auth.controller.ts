@@ -15,11 +15,27 @@ import { Response } from 'express';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Request() req, @Res() response: Response) {
-    const result = await this.authService.login(req.user, response);
-    return response.json(result);
+    console.log('Raw request body:', req.body);
+    console.log('Request headers:', req.headers);
+
+    const { email, password } = req.body || {};
+
+    console.log(
+      'Login endpoint called with email:',
+      email,
+      'password:',
+      password ? '[HIDDEN]' : 'undefined',
+    );
+    try {
+      const user = await this.authService.validateUser(email, password);
+      const result = await this.authService.login(user, response);
+      return response.json(result);
+    } catch (error) {
+      console.error('Login error:', error.message);
+      return response.status(401).json({ message: 'Invalid credentials' });
+    }
   }
 
   @Post('register')

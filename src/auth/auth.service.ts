@@ -12,12 +12,15 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, password: string) {
+    console.log('AuthService.validateUser called with email:', email);
     try {
       const user = await this.usersService.findByEmail(email);
+      console.log('User found:', user ? 'Yes' : 'No');
       const isPasswordValid = await this.usersService.validatePassword(
         password,
         user.password,
       );
+      console.log('Password valid:', isPasswordValid);
 
       if (!isPasswordValid) {
         throw new UnauthorizedException('Invalid credentials');
@@ -26,32 +29,44 @@ export class AuthService {
       const { password: _, ...result } = user.toObject();
       return result;
     } catch (error) {
+      console.error('validateUser error:', error.message);
       throw new UnauthorizedException('Invalid credentials');
     }
   }
 
   async login(user: any, response: Response) {
-    const payload = {
-      email: user.email,
-      sub: user._id,
-      role: user.role,
-    };
-
-    const token = this.jwtService.sign(payload);
-
-    this.setAuthCookie(response, token);
-
-    return {
-      message: 'Login successful',
-      user: {
-        id: user._id,
+    console.log('AuthService.login called with user:', user);
+    try {
+      const payload = {
         email: user.email,
+        sub: user._id,
         role: user.role,
-        name: user.name,
-        userCode: user.userCode,
-      },
-      token: token,
-    };
+      };
+      console.log('JWT payload:', payload);
+
+      const token = this.jwtService.sign(payload);
+      console.log('JWT token generated successfully');
+
+      this.setAuthCookie(response, token);
+      console.log('Auth cookie set');
+
+      const result = {
+        message: 'Login successful',
+        user: {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+          name: user.name,
+          userCode: user.userCode,
+        },
+        token: token,
+      };
+      console.log('Login result prepared:', result);
+      return result;
+    } catch (error) {
+      console.error('AuthService.login error:', error);
+      throw error;
+    }
   }
 
   async register(createUserDto: CreateUserDto, response: Response) {
