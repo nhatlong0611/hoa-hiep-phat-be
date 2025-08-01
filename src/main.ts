@@ -16,7 +16,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
 
   app.enableCors({
-    origin: process.env.FRONTEND_URL,
+    origin: [
+      'http://localhost:3000',
+      'https://hoahiepphat.vercel.app',
+      process.env.FRONTEND_URL,
+    ].filter(Boolean), // Remove undefined values
     credentials: true,
   });
 
