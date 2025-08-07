@@ -9,9 +9,24 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
+class SelectedBox {
+  @IsString()
+  id: string;
+
+  @IsString()
+  name: string;
+
+  @IsNumber()
+  price: number;
+}
+
 class OrderItem {
   @IsString()
   productId: string;
+
+  @IsString()
+  @IsOptional()
+  productName?: string;
 
   @IsNumber()
   quantity: number;
@@ -19,9 +34,27 @@ class OrderItem {
   @IsNumber()
   price: number;
 
+  @IsNumber()
+  @IsOptional()
+  boxPrice?: number;
+
+  @IsNumber()
+  @IsOptional()
+  totalPrice?: number;
+
+  @IsString()
+  @IsOptional()
+  image?: string;
+
   @IsOptional()
   @IsString()
   note?: string;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => SelectedBox)
+  @IsOptional()
+  selectedBox?: SelectedBox;
 }
 
 class ShippingInfo {

@@ -15,6 +15,22 @@ import {
 import { Type } from 'class-transformer';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
+// Tạo class cho thông tin hộp đựng
+class BoxOption {
+  @IsString()
+  @Prop({ required: true })
+  id: string; // ID của hộp
+
+  @IsString()
+  @Prop({ required: true })
+  name: string; // Tên hộp
+
+  @IsNumber()
+  @Min(0)
+  @Prop({ required: true })
+  price: number; // Giá hộp
+}
+
 // Tạo class cho thông tin dinh dưỡng
 class NutritionInfo {
   @IsNumber()
@@ -162,6 +178,12 @@ export class Product extends Document {
   @IsString({ each: true })
   @Prop({ type: [String], default: [] })
   categories: string[];
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => BoxOption)
+  @Prop({ type: [Object], default: [] })
+  boxOptions: BoxOption[]; // Các loại hộp có sẵn
 
   @IsArray()
   @ValidateNested({ each: true })

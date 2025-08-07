@@ -28,10 +28,25 @@ class ShippingInfo {
   note?: string;
 }
 
+// Selected box schema
+class SelectedBox {
+  @Prop({ required: true })
+  id: string;
+
+  @Prop({ required: true })
+  name: string;
+
+  @Prop({ required: true })
+  price: number;
+}
+
 // Order item schema
 class OrderItem {
   @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
   productId: Types.ObjectId;
+
+  @Prop()
+  productName?: string;
 
   @Prop({ required: true })
   quantity: number;
@@ -40,7 +55,19 @@ class OrderItem {
   price: number;
 
   @Prop()
+  boxPrice?: number;
+
+  @Prop()
+  totalPrice?: number;
+
+  @Prop()
+  image?: string;
+
+  @Prop()
   note?: string;
+
+  @Prop({ type: Object })
+  selectedBox?: SelectedBox;
 }
 
 // Status history schema
