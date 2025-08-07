@@ -31,6 +31,27 @@ class BoxOption {
   price: number; // Giá hộp
 }
 
+// Tạo class cho tùy chọn trứng
+class EggOption {
+  @IsString()
+  @Prop({ required: true })
+  id: string; // "1_egg", "2_egg", "no_egg"
+
+  @IsString()
+  @Prop({ required: true })
+  name: string; // "1 trứng (150g)", "2 trứng (180g)", "Chay"
+
+  @IsNumber()
+  @Min(0)
+  @Prop({ required: true })
+  price: number; // Giá của option này
+
+  @IsNumber()
+  @Min(0)
+  @Prop({ required: true })
+  weight: number; // Trọng lượng (gram)
+}
+
 // Tạo class cho thông tin dinh dưỡng
 class NutritionInfo {
   @IsNumber()
@@ -184,6 +205,12 @@ export class Product extends Document {
   @Type(() => BoxOption)
   @Prop({ type: [Object], default: [] })
   boxOptions: BoxOption[]; // Các loại hộp có sẵn
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => EggOption)
+  @Prop({ type: [Object], default: [] })
+  eggOptions: EggOption[]; // Các tùy chọn trứng có sẵn
 
   @IsArray()
   @ValidateNested({ each: true })

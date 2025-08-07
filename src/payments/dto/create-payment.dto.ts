@@ -20,6 +20,20 @@ class SelectedBox {
   price: number;
 }
 
+class EggOption {
+  @IsString()
+  id: string; // "1_egg", "2_egg", "no_egg"
+
+  @IsString()
+  name: string; // "1 trứng (150g)", "2 trứng (180g)", "Chay"
+
+  @IsNumber()
+  price: number; // Giá của option này
+
+  @IsNumber()
+  weight: number; // Trọng lượng (gram)
+}
+
 class OrderItem {
   @IsString()
   productId: string;
@@ -55,6 +69,12 @@ class OrderItem {
   @Type(() => SelectedBox)
   @IsOptional()
   selectedBox?: SelectedBox;
+
+  @IsObject()
+  @ValidateNested()
+  @Type(() => EggOption)
+  @IsOptional()
+  selectedEgg?: EggOption;
 }
 
 class ShippingInfo {

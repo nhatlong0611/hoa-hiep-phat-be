@@ -40,6 +40,21 @@ class SelectedBox {
   price: number;
 }
 
+// Egg option schema
+class EggOption {
+  @Prop({ required: true })
+  id: string; // "1_egg", "2_egg", "no_egg"
+
+  @Prop({ required: true })
+  name: string; // "1 trứng (150g)", "2 trứng (180g)", "Chay"
+
+  @Prop({ required: true })
+  price: number; // Giá của option này
+
+  @Prop({ required: true })
+  weight: number; // Trọng lượng (gram)
+}
+
 // Order item schema
 class OrderItem {
   @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
@@ -68,6 +83,9 @@ class OrderItem {
 
   @Prop({ type: Object })
   selectedBox?: SelectedBox;
+
+  @Prop({ type: Object })
+  selectedEgg?: EggOption;
 }
 
 // Status history schema

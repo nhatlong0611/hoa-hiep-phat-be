@@ -41,13 +41,19 @@ export class ProductsController {
   @Get('category/:category')
   async findByCategory(@Param('category') category: string) {
     const products = await this.productsService.findByCategory(category);
-    return successResponse(products, 'Lấy danh sách bánh theo danh mục thành công!');
+    return successResponse(
+      products,
+      'Lấy danh sách bánh theo danh mục thành công!',
+    );
   }
 
   @Get('type/:type')
   async findByType(@Param('type') type: string) {
     const products = await this.productsService.findByType(type);
-    return successResponse(products, 'Lấy danh sách bánh theo loại thành công!');
+    return successResponse(
+      products,
+      'Lấy danh sách bánh theo loại thành công!',
+    );
   }
 
   @Get(':id')
@@ -66,7 +72,10 @@ export class ProductsController {
   @Patch(':id')
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
-  async update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  async update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ) {
     const product = await this.productsService.update(id, updateProductDto);
     return successResponse(product, 'Cập nhật thông tin bánh thành công!');
   }
@@ -84,10 +93,7 @@ export class ProductsController {
 
   @Post(':id/reviews')
   @UseGuards(JwtAuthGuard) // Chỉ cần đăng nhập, không cần role admin
-  async addReview(
-    @Param('id') id: string,
-    @Body() review: any,
-  ) {
+  async addReview(@Param('id') id: string, @Body() review: any) {
     const product = await this.productsService.addReview(id, review);
     return successResponse(product, 'Thêm đánh giá thành công!');
   }

@@ -114,10 +114,28 @@ export class PaymentService {
       const orderData = {
         orderNumber: payment.orderCode,
         orderType: payment.orderData?.isGuestOrder ? 'guest' : 'user',
-        items: payment.orderData?.items?.map((item) => ({
-          ...item,
-          productId: new Types.ObjectId(item.productId),
-        })),
+        items: payment.orderData?.items?.map((item) => {
+          const mappedItem = {
+            ...item,
+            productId: new Types.ObjectId(item.productId),
+          };
+
+          // Log để debug selectedEgg
+          if (item.selectedEgg) {
+            console.log(
+              '🥚 Selected egg found:',
+              JSON.stringify(item.selectedEgg, null, 2),
+            );
+          }
+          if (item.selectedBox) {
+            console.log(
+              '📦 Selected box found:',
+              JSON.stringify(item.selectedBox, null, 2),
+            );
+          }
+
+          return mappedItem;
+        }),
         shipping: payment.customerInfo,
         payment: {
           method: payment.paymentMethod,
