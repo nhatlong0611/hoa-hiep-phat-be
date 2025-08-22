@@ -24,6 +24,24 @@ export class CartService {
     private ordersService: OrdersService,
   ) {}
 
+  /**
+   * Lấy giá sản phẩm cho cart
+   * - Nếu product có price cố định: dùng price đó
+   * - Nếu product có eggOptions: dùng giá thấp nhất từ eggOptions (giá mặc định cho cart)
+   * - Giá thực tế sẽ được tính khi checkout dựa trên selectedEgg
+   */
+  private getProductPriceForCart(product: Product): number {
+    if (product.price) {
+      return product.price;
+    }
+
+    if (product.eggOptions && product.eggOptions.length > 0) {
+      return Math.min(...product.eggOptions.map((egg) => egg.price));
+    }
+
+    return 0; // Fallback nếu không có giá nào
+  }
+
   async findUserCart(userId: string): Promise<Cart> {
     if (!userId || !isValidObjectId(userId)) {
       throw new BadRequestException('Invalid user ID format');
@@ -62,12 +80,14 @@ export class CartService {
       cart.items[itemIndex].quantity += quantity;
       cart.items[itemIndex].note = note;
     } else {
-      // Thêm sản phẩm mới vào giỏ
+      // Thêm sản phẩm mới vào giỏ với giá mặc định
+      const productPrice = this.getProductPriceForCart(product);
+
       cart.items.push({
         productId,
         productName: product.name,
         image: product.image,
-        price: product.price,
+        price: productPrice,
         quantity,
         note,
       });
@@ -262,14 +282,17 @@ export class CartService {
         continue;
       }
 
+      // Lấy giá mặc định cho validation
+      const productPrice = this.getProductPriceForCart(product);
+
       validatedItems.push({
         productId: item.productId,
         productName: product.name,
         image: product.image,
-        price: product.price,
+        price: productPrice,
         quantity: item.quantity,
         note: item.note,
-        subtotal: product.price * item.quantity,
+        subtotal: productPrice * item.quantity,
       });
     }
 
