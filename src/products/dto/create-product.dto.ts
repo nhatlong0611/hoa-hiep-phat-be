@@ -8,6 +8,7 @@ import {
   ValidateNested,
   IsObject,
   Max,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -199,4 +200,8 @@ export class CreateProductDto {
   @Max(5)
   @IsOptional()
   averageRating?: number;
+
+  @IsBoolean()
+  @IsOptional()
+  bestSeller?: boolean;
 }

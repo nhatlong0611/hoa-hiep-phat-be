@@ -38,6 +38,12 @@ export class ProductsController {
     return successResponse(products, 'Lấy danh sách bánh thành công!');
   }
 
+  @Get('best-sellers')
+  async getBestSellers() {
+    const products = await this.productsService.getBestSellers();
+    return successResponse(products, 'Lấy danh sách bánh bán chạy thành công!');
+  }
+
   @Get('category/:category')
   async findByCategory(@Param('category') category: string) {
     const products = await this.productsService.findByCategory(category);
@@ -96,6 +102,23 @@ export class ProductsController {
   async addReview(@Param('id') id: string, @Body() review: any) {
     const product = await this.productsService.addReview(id, review);
     return successResponse(product, 'Thêm đánh giá thành công!');
+  }
+
+  @Patch(':id/best-seller')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN)
+  async updateBestSellerStatus(
+    @Param('id') id: string,
+    @Body('bestSeller') bestSeller: boolean,
+  ) {
+    const product = await this.productsService.updateBestSellerStatus(
+      id,
+      bestSeller,
+    );
+    return successResponse(
+      product,
+      'Cập nhật trạng thái best seller thành công!',
+    );
   }
 
   @Delete(':id')

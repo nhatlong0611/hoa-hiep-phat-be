@@ -79,6 +79,31 @@ export class ProductsService {
     return deletedProduct;
   }
 
+  // Lấy danh sách best sellers
+  async getBestSellers(): Promise<any[]> {
+    const bestSellers = await this.productModel
+      .find({ bestSeller: true })
+      .exec();
+    return bestSellers.map((product) =>
+      this.transformProductForFrontend(product),
+    );
+  }
+
+  // Cập nhật trạng thái best seller
+  async updateBestSellerStatus(
+    id: string,
+    bestSeller: boolean,
+  ): Promise<Product> {
+    const updatedProduct = await this.productModel
+      .findByIdAndUpdate(id, { bestSeller }, { new: true })
+      .exec();
+
+    if (!updatedProduct) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+    return updatedProduct;
+  }
+
   async addReview(productId: string, review: any): Promise<Product> {
     const product = await this.productModel.findById(productId);
     if (!product) {

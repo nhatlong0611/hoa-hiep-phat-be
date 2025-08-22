@@ -11,6 +11,7 @@ import {
   IsOptional,
   IsUrl,
   Max,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { Document, Schema as MongooseSchema } from 'mongoose';
@@ -223,6 +224,10 @@ export class Product extends Document {
   @Max(5)
   @Prop({ default: 0 })
   averageRating: number; // Điểm đánh giá trung bình
+
+  @IsBoolean()
+  @Prop({ default: false })
+  bestSeller: boolean; // Đánh dấu sản phẩm bán chạy
 
   // Tự động được thêm bởi timestamps: true
   @IsDate()
