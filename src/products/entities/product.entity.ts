@@ -170,10 +170,10 @@ export class Product extends Document {
   nutritionInfo: NutritionInfo;
 
   @IsNumber()
-  @IsNotEmpty()
   @Min(0)
-  @Prop({ required: true })
-  price: number;
+  @IsOptional()
+  @Prop()
+  price?: number;
 
   @IsString()
   @Prop()

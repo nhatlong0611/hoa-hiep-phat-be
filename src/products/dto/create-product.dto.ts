@@ -149,9 +149,9 @@ export class CreateProductDto {
   nutritionInfo?: NutritionInfoDto;
 
   @IsNumber()
-  @IsNotEmpty()
   @Min(0)
-  price: number;
+  @IsOptional()
+  price?: number;
 
   @IsString()
   @IsOptional()
